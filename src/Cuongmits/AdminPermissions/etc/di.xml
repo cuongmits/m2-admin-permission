@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\NewAction" type="Cuongmits\AdminPermissions\Controller\Adminhtml\Product\NewAction"/>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Edit" type="Cuongmits\AdminPermissions\Controller\Adminhtml\Product\Edit"/>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Save" type="Cuongmits\AdminPermissions\Controller\Adminhtml\Product\Save"/>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\MassDelete" type="Cuongmits\AdminPermissions\Controller\Adminhtml\Product\MassDelete"/>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\MassStatus" type="Cuongmits\AdminPermissions\Controller\Adminhtml\Product\MassStatus"/>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="toom_create_admin_role_and_user" xsi:type="object">Cuongmits\AdminPermissions\Console\Command\CreateAdminRoleAndUserCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Tkotosz\CommandScheduler\Model\AllowedCommandsContainer">
+        <arguments>
+            <argument name="allowedCommands" xsi:type="array">
+                <item name="Create admin role and its user if needed" xsi:type="string">toom:create-admin-role</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Block\Adminhtml\Product">
+        <plugin name="modify-add-product-button-visibility" type="Cuongmits\AdminPermissions\Plugin\ModifyAddProductButtonVisibility" sortOrder="1" />
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Button\Save">
+        <plugin name="hide-save-buttons-when-no-permission" type="Cuongmits\AdminPermissions\Plugin\HideProductSaveButtonsWhenNoPermission" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Ui\Component\Product\MassAction">
+        <plugin name="restrict-actions-dropdown" type="Cuongmits\AdminPermissions\Plugin\RestrictActionsDropdown" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Block\Adminhtml\Product\Edit\Button\AddAttribute">
+        <plugin name="hide-add-attribute-button-when-no-permission" type="Cuongmits\AdminPermissions\Plugin\HideAddAttributeButtonWhenNoPermission" sortOrder="1" />
+    </type>
+</config>
